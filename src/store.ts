@@ -607,7 +607,7 @@ export function handelize(path: string): string {
   const segments = path.split('/').filter(Boolean);
   const lastSegment = segments[segments.length - 1] || '';
   const filenameWithoutExt = lastSegment.replace(/\.[^.]+$/, '');
-  const hasValidContent = /[a-zA-Z0-9]/.test(filenameWithoutExt);
+  const hasValidContent = /[\p{L}\p{N}]/u.test(filenameWithoutExt);
   if (!hasValidContent) {
     throw new Error(`handelize: path "${path}" has no valid filename content`);
   }
