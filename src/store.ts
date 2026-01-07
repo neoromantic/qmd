@@ -621,19 +621,19 @@ export function handelize(path: string): string {
 
       if (isLastSegment) {
         // For the filename (last segment), preserve the extension
-        const extMatch = segment.match(/(\.[a-z0-9]+)$/i);
+        const extMatch = segment.match(/(\.[\p{L}\p{N}]+)$/iu);
         const ext = extMatch ? extMatch[1] : '';
         const nameWithoutExt = ext ? segment.slice(0, -ext.length) : segment;
 
         const cleanedName = nameWithoutExt
-          .replace(/[\W_]+/g, '-')  // Replace non-word chars with dash
+          .replace(/[^\p{L}\p{N}]+/gu, '-')  // Replace non-word chars with dash
           .replace(/^-+|-+$/g, ''); // Remove leading/trailing dashes
 
         return cleanedName + ext;
       } else {
         // For directories, just clean normally
         return segment
-          .replace(/[\W_]+/g, '-')
+          .replace(/[^\p{L}\p{N}]+/gu, '-')
           .replace(/^-+|-+$/g, '');
       }
     })
